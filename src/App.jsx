@@ -1,12 +1,24 @@
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard.jsx";
 import { useState } from "react";
+import Log from "./components/Log.jsx";
 
 function App() {
+  const [gameTurns, setGameTurns] = useState([]);
   const [activePlayer, setActivePlayer] = useState('X');
 
-  function handleSelectSquare() {
+  function handleSelectSquare(rowIndex, colIndex) {
     setActivePlayer((curActivePlayer) => curActivePlayer === 'X' ? 'O' : 'X');
+    let currentPlayer = 'X';
+
+    if (prevTurns.length > 0 && prevTurns[0].player === 'X') {
+      currentPlayer = 'O';
+    }
+    setGameTurns(prevTurns => {
+      const updatedTurns = [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prevTurns];
+    });
+
+    return updatedTurns;
   }
 
   return (
@@ -18,7 +30,7 @@ function App() {
         </ol>
         <GameBoard onSelectSquare={handleSelectSquare} activePlayerSymbol={activePlayer} />
       </div>
-      LOG
+      <Log />
     </main>
   );
 }
